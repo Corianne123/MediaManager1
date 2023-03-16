@@ -11,16 +11,9 @@ namespace MediaManager
     {
         public string DuplicateTitle { get; }
 
-        public DuplicateException() { }
-
-        public DuplicateException(string message)
-            : base(message) { }
-
-        public DuplicateException(string message, Exception inner)
-            : base(message, inner) { }
 
         public DuplicateException(string message, string DuplicateTitle)
-            : this(message)
+            : base(message)
         {
             this.DuplicateTitle = DuplicateTitle;
         }

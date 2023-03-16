@@ -10,7 +10,7 @@ namespace MediaManager
 {
     public  class Library
     {
-        public List<Media> medias { get; set; }
+        public List<Media> medias { get; set; } = new List<Media>();
         public string Name { get; set; }
 
         public Library(string name)
@@ -24,35 +24,21 @@ namespace MediaManager
         }
 
         public int CountBooks () {
-           int nb = 0;
-            foreach(var item in medias)
-            { 
-                if (item is Book)
-                    nb++; 
-            }
-            return nb; 
+
+            List<Media> list = medias.FindAll(x => x is Book);
+            return list.Count; 
         }
 
         public int CountComics()
         {
-            int nb = 0;
-            foreach (var item in medias)
-            {
-                if (item is Comic)
-                    nb++;
-            }
-            return nb;
+            List<Media> list = medias.FindAll(x => x is Comic);
+            return list.Count;
         }
 
         public int CountMovies()
         {
-            int nb = 0;
-            foreach (var item in medias)
-            {
-                if (item is Movie)
-                    nb++;
-            }
-            return nb;
+            List<Media> list = medias.FindAll(x => x is Movie);
+            return list.Count;
         }
 
         public bool Contains(Media media)
@@ -92,43 +78,25 @@ namespace MediaManager
 
         public void AddMedia(Media a)
         {
-            if (medias != null)
+            if (medias.FindAll(p => p.Title == a.Title).Any())
             {
-                if (medias.FindAll(p => p.Title == a.Title).Any())
-                {
-                    throw new DuplicateException("Title already exists", a.Title);
-                }
-                else
-                {
-
-                    this.medias.Add(a);
-                }
-            } else
-            {
-                medias = new List<Media>();
-                this.medias.Add(a);
+                throw new DuplicateException("Title already exists", a.Title);
             }
-
-
+             this.medias.Add(a);
         }
 
         public void AddMedia(List<Media> list)
         {
-            if (medias != null) { 
-                foreach (Media a in list)
-                {
-                    if (medias.FindAll(media => media.Title == a.Title).Any())
-                    {
-                        throw new DuplicateException("Title already exists", a.Title);
-                    }
-                }
-                foreach (Media a in list)
-                {
-                    this.medias.Add(a);
-                }
-            } else
+            foreach (Media a in list)
             {
-                medias = list;
+                if (medias.FindAll(media => media.Title == a.Title).Any())
+                {
+                    throw new DuplicateException("Title already exists", a.Title);
+                }
+            }
+            foreach (Media a in list)
+            {
+                this.medias.Add(a);
             }
 
         }

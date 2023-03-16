@@ -9,9 +9,7 @@ namespace MediaManager
 {
     public class Book: Media
     {
-        public string Title { get; set; }
         public string Author { get; set; }
-        public List<Genre> Genres { get; set; }
         public Book(string title,string author,Genre type) : base(title,type)
         {
             Author = author;

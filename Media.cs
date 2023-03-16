@@ -10,7 +10,7 @@ namespace MediaManager
     {
         public string Title;
 
-        public List<Genre> Genres;
+        public List<Genre> Genres { get; set; }= new List<Genre>();
 
         public User ShareWith { get; set; }
 
@@ -18,7 +18,6 @@ namespace MediaManager
         public Media(string title,Genre type)
         {
             Title = title;
-            Genres = new List<Genre>();
             Genres.Add(type);
         }
 

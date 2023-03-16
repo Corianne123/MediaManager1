@@ -12,21 +12,32 @@ namespace MediaManager
         public string Name { get; set; }
         public Library Library { get; set; }
 
-        private List<Media> OwnedMedia { get; set; } = new List<Media>();
-
         private List<Media> SharedMedia { get; set; } = new List<Media>();
 
         public  User(string name,Library library)
         { 
             this.Name = name; 
             Library = library;
-            OwnedMedia = Library.medias;
         }
 
         public void Share(Media media,User user)
         {
-                
-            SharedMedia.Add(media);
+            if(IsAvailable(media))
+            {
+                if (IsOwned(media))
+                {
+                    user.SharedMedia.Add(media);
+                    SharedMedia.Add(media);
+                } else
+                {
+                    throw new NotOwnedException();
+                }
+            } else
+            {
+                throw new NotAvailableException();
+            }
+
+            
 
         }
 
@@ -45,44 +56,20 @@ namespace MediaManager
 
         public bool IsAvailable(Media media)
         {
-            if (OwnedMedia != null)
+            if (((Library.medias.Contains(media)) && (!SharedMedia.Contains(media))) || ((!Library.medias.Contains(media)) && (SharedMedia.Contains(media))))
             {
-                if ((OwnedMedia.Contains(media)) && (!SharedMedia.Contains(media)))
-                {
-                    return true;
-                } else if ((!OwnedMedia.Contains(media)) && (SharedMedia.Contains(media)))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                } 
+                return true;
             }
             else
             {
-                if (SharedMedia.Contains(media))
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-                
-            }
+                return false;
+            } 
 
         }
 
         public bool IsOwned(Media media)
         {
-            if (OwnedMedia != null)
-            {
-                return OwnedMedia.Contains(media);
-            } else
-            { 
-                return false;
-            }
-            
-
+                return Library.medias.Contains(media);
         }
 
 
