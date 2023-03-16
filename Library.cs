@@ -76,27 +76,27 @@ namespace MediaManager
         }
 
 
-        public void AddMedia(Media a)
+        public void AddMedia(Media m)
         {
-            if (medias.FindAll(p => p.Title == a.Title).Any())
+            if (medias.FindAll(p => p.Title == m.Title).Any())
             {
-                throw new DuplicateException("Title already exists", a.Title);
+                throw new DuplicateException("Title already exists", m.Title);
             }
-             this.medias.Add(a);
+             this.medias.Add(m);
         }
 
         public void AddMedia(List<Media> list)
         {
-            foreach (Media a in list)
+            foreach (Media m in list)
             {
-                if (medias.FindAll(media => media.Title == a.Title).Any())
+                if (medias.FindAll(media => media.Title == m.Title).Any())
                 {
-                    throw new DuplicateException("Title already exists", a.Title);
+                    throw new DuplicateException("Title already exists", m.Title);
                 }
             }
-            foreach (Media a in list)
+            foreach (Media m in list)
             {
-                this.medias.Add(a);
+                this.medias.Add(m);
             }
 
         }
